@@ -318,21 +318,80 @@ shell> rpm -ivh libtermcap-devel-2.0.8-46....
 shell> make && make install
 ```
 
+
 > 配置并初始化MySQL
 
 ```
 shell> groupadd mysql	
 shell> useradd  -g mysql mysql	
-shell> cp support-files/my-medium.cnf /etc/my.cnf
+shell> cp support-files/my-medium.cnf /etc/my.cnf  // mysql配置文件拷贝系统指定目录,并修改文件名 
 shell> cd /usr/local/mysql
-shell> chown -R mysql.mysql .	
+shell> chown -R mysql.mysql . // 递归修改组和文件的主人 为当前目录`.`
 shell> bin/mysql_install_db --user=mysql \
 --datadir=/usr/local/mysql/var
-// 创建mysql测试数据库和系统的数据库
+// 创建mysql测试数据库和系统的数据库。 把数据存放到var目录下. (在mysql的bin目录下执行)
 shell> chown -R root .	
-		// 把当前目录文件的主人都改为root，避免数据库恢复为出厂设置。
-shell> chown -R mysql var
+		// 把当前目录文件的主人都改为root，避免数据库恢复为出厂设置。 (在mysql的bin目录下执行)
+shell> chown -R mysql var 
 shell> bin/mysqld_safe --user=mysql &	
-		// 启动mysql，& 后台运行mysql服务
+		// 启动mysql，`&`表示在后台运行mysql服务
+```
+
+搜寻进程
+```
+> ps -A | grep 'mysql'
+```
+
+登陆mysql
+```
+> ./mysql // 在bin目录
+```
+
+设置密码：
+通过数据表的形式修改密码
+```
+> use mysql
+> desc user
+
+> seelct User,Password,Host from user
+
+> update user set Password=password(Pass1234)   // 设置密码并加密
+```
+
+刷新mysql权限,(无论是设置密码，还是增减权限都需要刷新mysql权限)，是密码生效
+```
+> flush privileges
+```
+
+
+注意：
+* 安装完之后，gnome已经奔溃，不要使用桌面模式.
+```
+> cd /etc
+> vi inittab
+```
+
+* apache 和 mysql  启动方式不同
+设置系统自动启动
+
+配置文件路径：
+在 `/etc/rc.d/rc.local` 文件中增加启动apache的命令
+```
+/usr/local/http2/bin/apachectl start 
+/usr/local/mysql/bin/mysqld_safe --user=mysql &
+```
+-----
+```
+> vi /etc/rc.d/rc.local
+```
+
+系统重启
+```
+reboot
+```
+
+关机
+```
+poweroff
 ```
 
