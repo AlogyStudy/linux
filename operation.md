@@ -140,10 +140,12 @@ CPU（运算器+控制器），memory，I/O（输入设置+输出设备）
 	Windows: ExE, 库文件dll(dynamic link  blirary)
 	Linux: ELF, 库文件so	(shared object)
 
-程序：
-	指令 + 数据
+程序：指令 + 数据
 	指令：只读
 	数据：读写
+程序：算法 + 数据结构
+
+库调用，系统调用：从本质上讲都是别人写好的程序，可以直接拿来使用。
 
 
 ## Linux发行版
