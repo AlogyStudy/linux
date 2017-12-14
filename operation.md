@@ -145,9 +145,61 @@ CPU（运算器+控制器），memory，I/O（输入设置+输出设备）
 	数据：读写
 程序：算法 + 数据结构
 
-库调用，系统调用：从本质上讲都是别人写好的程序，可以直接拿来使用。
+库调用，系统调用：从本质上讲都是别人写好的程序，可以直接拿来使用。// malloc()申请内存, free()释放内存
 
+编程语言：
+- 汇编语言：维码编程(系统中与硬件相关的特有代码，驱动程序开发)
+- 高级语言C,C++：系统级应用
+- 高级应用java，python，php：应用程序
+
+```
+kenrel, glibc, bash --> 编译成对应的执行文件，组成系统
+```
 
 ## Linux发行版
+
+主流发行版本：
+```
+slackware:
+	suse // 二次发行版本
+		opensuse // (基于sure发行的) // 三次发行版本
+		sles
+debian:
+	ubuntu // 二次发行版本
+		mint  // 三次发行版本
+redhat:
+	rhel: redhat enterprise linux
+	CentOS: 兼容rhel的格式 // 在后期被rhel收购，rhel维护二个分支.
+	fedora
+ArchLinux: 完全独立，轻量，轻巧的程序独立包
+Gentoo
+LFS：Linux From scratch
+
+Android: kernel + busybox + java虚拟机
+```
+
+程序包管理器:
+
+- rpm: RHEL, Fedora, S.u.S.E, CentOS
+- dpt: Debian, Ubuntu
+
+
+CentOS和Linux关系?
+CentOS和RHEL是什么关系?
+各种开源协议的具体细节：GPL, LGPL, Apache, BSD
+
+> 自由软件
+
+- 自由使用
+- 自由学习和修改
+- 自由分发
+- 自由创建衍生版
+
+> Linux的哲学思想
+
+1. 一切皆文件：把几乎所有的资源，包括硬件设备都组织为文件格式.
+2. 由众多单一目的的小程序组成，一个程序只实现一个功能，而且要做好。
+3. 尽量避免跟用户交互。目标：实现脚本编程，以自动完成某些功能.
+4. 使用纯文本文件保存配置信息。目标：一款使用的文本编辑器即能完成系统配置工作。
 
 
