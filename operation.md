@@ -349,3 +349,77 @@ type cd
 
 LSB: Linux Standard Base （linxu定义），规定了linux基本的规范。
 
+## 命令
+
+> Linux命令帮助的获取
+
+外部命令：都有一个可执行程序，位于文件系统某目录下。
+
+`shell`程序搜寻可执行程序文件的路径定义在`PATH`环境变量中。
+```
+echo $PATH
+// 自左至右顺序寻找
+/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/home/admin/bin
+```
+
+内部命令获取帮助：`help COMMAND`
+外部命令：
+- `COMMAND --help`
+- `COMMAND -h`
+- 使用手册`manual`,`man COMMAND`
+- 信息页`info COMMAND`
+- 程序自身的帮助文档`README`,`INSTALL`,`ChangeLog`
+- 程序官方文档：官方站点`Documentation`
+- 发行版的官方文档
+- Google
+
+```
+> hash
+```
+
+shell搜寻到的外部命令的路径结果会缓存至kv(key-value)存储中。
+输入的命令第一次会在各自可执行程序文件中寻找，然后存储在缓存中（可理解为内存中的一段空间），后续使用中，从缓存中查找。
+
+
+```
+> history
+> history -a // 手动追加本次会话新执行的命令历史列表至历史文件中
+> history -c // 清空命令历史
+```
+管理命令历史
+登录系统之后，输入的每一个命令都记录在历史记录缓冲当中，一旦登出（`exit`,`logout`）之后会放置在历史文件`.bash_history`中。
+登录`shell`时，会读取命令历史文件中记录下的命令:`~/.bash_shitory`
+
+
+快捷操作:
+```
+> !# // !7 // 调用历史记录中第#条命令
+> !string // !man // 调用历史记录中最近一个以string开头的命令
+> !! // 重复运行上一条命令
+```
+
+CentOS系统中，手册页:`/usr/share/man`
+`man1 ... man8`
+系统之上有很多命令，有些命令出于管理的目的，有点普通用法目的。不同目的，不同权限的的命令，一般是分门别类进行存放。
+```
+> man COMMAND
+> man read
+> man 2 read // 查看指定章节的帮助手册
+> whatis COMMAND
+> whatis read // 查看那些章节下有相关文档
+```
+- man1: 用户命令
+- man2: 系统调用
+- man3: C库调用(系统库)
+- man4: 设备文件（`/dev`底下的文件）及特殊文件
+- man5: 配置文件格式
+- man6: 游戏
+- man7: 杂项
+- man8: 管理类的命令
+
+`man`命令的配置文件：`/etc/man.config`
+`MANPATH`变量定义`man`命令到哪边搜索文件路径
+
+```
+nano /ect/man.confg // 编辑器
+```
