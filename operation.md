@@ -368,10 +368,11 @@ echo $PATH
 - `COMMAND -h`
 - 使用手册`manual`,`man COMMAND`
 - 信息页`info COMMAND`
-- 程序自身的帮助文档`README`,`INSTALL`,`ChangeLog`
+- 程序自身的帮助文档`README`,`INSTALL`,`ChangeLog`: `/usr/share/doc/COMMAND_VERSION`,`/usr/share/doc/httpd-2.2.15/`
 - 程序官方文档：官方站点`Documentation`
 - 发行版的官方文档
-- Google
+- Google: `openstack filetype:pdf`,`openstack site:openstack.com`
+- www.slideshare.net
 
 ```
 > hash
@@ -422,4 +423,29 @@ CentOS系统中，手册页:`/usr/share/man`
 
 ```
 nano /ect/man.confg // 编辑器
+```
+
+帮助手册说明：
+SYNOPSIS:
+```
+[]: 可选内容
+<>: 必选内容
+a|b: 二选一
+...: 同一内容可出现多次
+```
+
+`man`命令的操作方法（解压`gzip`文件，然后内部调用less命令，进行显示）：
+```
+Space(空格)，Ctrl + f, Ctrl + V, Ctrl + F： 翻屏操作
+b, Ctrl + B： 向文件首部翻屏
+d, Ctrl + D： 向文件尾部翻半屏
+u, Ctrl + U： 向文件首部翻半屏
+q： 退出
+1G： 调至文件首部
+G： 调至文件尾部
+10： 跳转10行（键入数字）
+/keyword： 搜索关键字，（以keyword指定的字符串为关键字，从当前位置向文件尾部搜索，默认不区分大小写）
+n: 下一个关键词
+N: 上一个关键字
+?keyword: 向文件头部搜索
 ```
