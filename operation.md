@@ -561,5 +561,40 @@ bin: 文件名
 
 ```
 > echo 
+> echo -n // 禁止自动添加换行符号
+> echo -e // 允许使用转义符: \n:换行，\t:制表符
 ```
+
+> which 
+
+显示命令对应的程序文件路径
+
+```
+which cat
+```
+
+> whereis
+
+显示命令的库文件，资源，man手册等信息
+```
+> whereis cat
+```
+
+> whatis
+
+使用mkwhatis命令可将当前系统上的帮助手册以及与之对应的关键字创建为一个数据库。
+
+```
+> whatis read
+```
+
+> 系统管理
+
+关机：
+`halt`, `poweroff`, `shutdown`, `init 0`
+重启：
+`reboot`, `shutdown`, `init 6`
+用户登录相关：
+`who`, `whoami`, `w`
+
 
