@@ -515,9 +515,10 @@ dr-xr-xr-x：
 d 目录文件
 l 链接文件
 b 跨设备
-c 字符设备
+c 字符设备: character device
 p 管道
 s 套接字
+b：block device
 后九位：访问权限mode
 
 2: 文件被硬连接的次数
@@ -595,6 +596,82 @@ which cat
 重启：
 `reboot`, `shutdown`, `init 6`
 用户登录相关：
-`who`, `whoami`, `w`
+`who`(系统当前所有登录会话), `whoami`(显示当前登录有效用户), `w`(系统当前所有登录会话及所做的操作)
+
+
+常用：`halt -f`, `reboot -f`
+`-f`: 强制，不调用`shutdown`
+`-p`: 切断电源
+`shutdown -h 0`
+
+## 文件系统
+
+根文件系统（rootfs）：root filesystem
+Linux的内核运行起来，会挂载系统盘，作为根文件目录。
+
+其它分区，要与系统盘建立关联关系。系统盘的一级目录作为其他分区的根目录。
+
+对linux来讲，都是在根目录下，为什么还要分区呢？
+预防重装系统，或者对应盘符格式化情况。
+
+系统自我运行使用到的路径（除了boot，home之外，其它目录不能关联分区）：
+```
+/boot： 引导文件的存放的目录（操作系统启动依赖的文件）,内核文件(vmlinuz),引导加载器（bootloader，grub）都存放此目录
+/bin: 供所有用户使用的基本命令(OS启动过程中需要使用到的程序),不能关联至独立分区
+/sbin: 管理类的基本命令，不能关联至独立分区，OS启动即会用到对程序(管理员才能使用)
+/lib: 基本/共享库文件,以及内核模块文件（/lib/modules）
+/lib64: 专用于x86_64系统上的辅助共享库文件存放位置
+/etc: 配置文件目录(纯文本文件) /etc/X11/ X协议配置文件
+/home: 用户家目录
+/root: 管理员的家目录
+/dedia: 便携式移动设备挂载点（U盘，光盘，手机）
+/mnt: 临时文件系统挂载点
+/dev：设备文件及特殊文件存储位置: b：block device (随机访问设备)，c：character device(线性访问设备)
+/opt：第三方应用程序的安装位置，类似windows附件
+/srv: 系统上运行的服务用到的数据
+/tmp: 临时文件存储位置
+```
+
+一般作为独立分区/关联分区：
+```
+/usr: universal shared, read-only data。 （文件一般不需要修改，只读）
+	bin: 保证系统拥有完整功能而提供的应用程序
+	sbin: 
+	lib:
+	lib64:
+	etc:
+	include: C程序的头文件（header files）
+	share: 结构化独立的数据，例如doc，man等
+	local: 第三方应用程序的安装位置(自我独立的程序安装位置)：bin, sbin, lib, etc, share
+/var: variable data files
+	cache: 应用程序缓存数据目录
+	lib: 应用程序状态信息数据
+	local: 专用于为/usr/local/下的应用程序存储可变数据
+	lock: 锁文件
+	log: 日志目录及文件
+	opt: 专用于为/opt下的应用程序存储可变数据
+	run: 运行中的进程相关的数据，通常用于存储进程的pid文件
+	spool: 应用程序缓冲池
+	tmp: 保存系统两次重启之间产生的临时数据
+/proc: 用于输出内核与进程信息相关的虚拟文件系统（伪文件系统）
+/sys: 用于输出当前系统上硬件设备相关信息的虚拟系统（伪文件系统）
+/selinux: serucity enhanced Linux, 安全加固机制，安全策略等信息存储位置
+```
+
+`Linux`上的应用程序组成部分：
+- 二进制程序：`/bin`, `/sbin`, `/usr/bin`, `/usr/sbin`, `/usr/local/bin`, `/usr/local/sbin`
+- 库文件：`lib`, `/lib64`, `/usr/lib`, `/usr/lib64`, `/usr/local/lib`, `/usr/local/lib64`
+- 配置文件：`/etc`, `/ect/DIREACORY`, `/usr/local/etc`
+- 帮助文件： `/user/share/man`, `/usr/share/doc`, `/usr/local/share/man`, `/usr/share/doc`
+
+`Linux`下的文件类型：
+- (f): 普通文件
+- d: 目录文件
+- b：块设备
+- c: 字符设别
+- l: 符号链接文件（软链接）
+- p：管道文件
+- s: 套接字文件，socket
+
 
 
