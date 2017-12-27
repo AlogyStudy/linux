@@ -66,3 +66,40 @@ bash执行命令：
 - 程序的执行状态结果
 
 
+## 命令别名
+
+`alias`命令别名
+
+显示已有可用别名：
+```
+alias
+```
+
+定义别名：
+```
+alias [-p] [name[=value] ... ]
+alias cdnet='cd /etc/sysconfig/network-scripts/'
+```
+
+仅对当前`bash`进程有效
+
+仅对当前用户：`~/.bashrc`
+对所有用户有效：`/etc/bashrc`
+修改配置文件，在新进程中才能读取，或者当前进程重新读取配置文件
+```
+source .bashrc
+```
+
+撤销别名：
+```
+unalias -a // 移除所有
+unalias name // 移除指定
+```
+
+> glob
+
+`glob, globbing`
+
+实现文件名“通配”
+
+使用通配符：`*`, `?`, `[]`
