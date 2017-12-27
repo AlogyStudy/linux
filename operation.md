@@ -716,3 +716,52 @@ modify time: 修改时间，改变文件内容（数据）
 change time: 改变时间，元数据发生改变
 ```
 
+如果没有文件存在，创建一个空文件。三个时间戳都是当前时间。
+
+```
+touch -c a.txt // -c 不存在不创建
+```
+
+## 文件管理
+
+`cp`, `mv`, `rm`
+
+> cp拷贝
+
+```
+cp SOURCE DIRECTORY
+```
+
+`SOURCE`是文件
+如果目标不存在，新建`DIRECTORY`，并将`SOURCE`中的内容填充至`DIRECTORY`中
+如果目标存在：
+	如果`DIRECTORY`是文件，将`SOURCE`中的内容覆盖至`DIRECTORY`中
+	如果`DIRECTORY`是目录，在`DIRECTORY`下新建与原文件同名的文件，并将`SOURCE`中的内容填充至新文件中
+
+`SOURCE`是目录
+	使用选项：`-r` 递归复制
+	如果`DIRECTORY`不存在，则创建指定目录，复制`SOURCE`目录中所有文件至`DIRECTORY`中
+	如果`DIRECTORY`存在，`DIRECTORY`是文件，报错；如果`DIRECTORY`是目录，在目标目录下创建一个与目标目录同名的目录，并把源目录下文件复制到创建目录下。
+
+
+> mv 移动文件
+
+`mv`, `move` 移动文件
+```
+mv SOURCE DIRECTORY
+```
+
+常用选项：
+`-i`: 交互式
+`-f`：强制
+
+
+> rm 删除
+
+`rm`, `remove`，删除
+
+常用选项：
+`-i`: 交互式
+`-f`：强制
+`-r`：递归
+
