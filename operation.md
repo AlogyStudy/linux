@@ -766,3 +766,59 @@ mv SOURCE DIRECTORY
 `-r`：递归
 
 
+
+> glob
+
+`glob, globbing`
+
+实现文件名“通配”
+
+使用通配符：`*`, `?`, `[]`
+
+`*`: 任意长度任意字符
+`?`: 任意单个字符
+`[]`: 指定范围内的任意单个字符
+`[^]`: 指定范围之外的任意单个字符
+
+专用字符集合：
+```
+[[:digit:]] = > [0-9] 
+
+[:alnum:] 任意数值或字母 [:alpha:] 任意大小写字母  [:blank:]  [:cntrl:]
+[:digit:] 任意数字 [:graph:]  [:lower:] 任意小写字母  [:print:]
+[:punct:]标点符号  [:space:]  [:upper:] 任意大写字母 [:xdigit:]
+```
+
+> 文本处理工具
+
+`wc`, `cut`, `sort`, `uniq`
+
+> wc
+
+`word count`
+
+统计字节数，行数，字符数
+```
+wc -l /etc/passwd // 行数
+wc -w /etc/passwd  // 字符数
+```
+
+> cut
+
+特定字符输出
+按照指定字符分割，默认以空格分隔
+
+```
+cut -d: -f1,7 /etc/passwd // -d 指明分隔符。 -f 指明显示那些字段
+```
+
+> sort
+
+排序输出结果
+默认字母表字母顺序排序
+```
+sort /etc/passwd
+```
+`-f`：忽略字符大小写
+`-r`：逆序
+

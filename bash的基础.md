@@ -96,25 +96,99 @@ unalias -a // 移除所有
 unalias name // 移除指定
 ```
 
-> glob
 
-`glob, globbing`
 
-实现文件名“通配”
+## bash快捷键
 
-使用通配符：`*`, `?`, `[]`
-
-`*`: 任意长度任意字符
-`?`: 任意单个字符
-`[]`: 指定范围内的任意单个字符
-`[^]`: 指定范围之外的任意单个字符
-
-专用字符集合：
 ```
-[[:digit:]] = > [0-9] 
+Ctrl + l：清屏，相当于clear命令
 
-[:alnum:] 任意数值或字母 [:alpha:] 任意大小写字母  [:blank:]  [:cntrl:]
-[:digit:] 任意数字 [:graph:]  [:lower:] 任意小写字母  [:print:]
-[:punct:]标点符号  [:space:]  [:upper:] 任意大写字母 [:xdigit:]
+Ctrl + a：跳转至命令开始处
+Ctrl + e：跳转至命令结尾处
+
+Ctrl + c：取消命令执行
+
+Ctrl + u：删除命令行首至命令行所在处的所有内容
+Ctrl + k：删除命令行尾至命令行所在处的所有内容
+```
+
+
+## bash的I/O重定向
+
+程序：指令 + 数据
+	
+读入数据：`Input`
+输出数据：`Output`
+
+打开的文件都有一个`fd`: `file descriptor`(文件描述符)
+
+标准输入（设备）：`keyborad`， `0`。
+标准输出（设备）：`monitor`，`1`
+标准错误输出：`moniter`，`2`
+
+
+`I/O`重定向：改变标准位置
+
+输出重定向：`COMMAND > NET_POS`（覆盖重定向）,`COMMAND >> NEW_POS`(添加重定向)
+标准错误输出：`COMMAND 2> NET_POS`（覆盖重定向错误输出数据流），`COMMAND 2>> NET_POS`（添加重定向错误输出数据流）
+
+```
+ls /var/ > /tmp/etc.out
+
+set -C：禁止将内容覆盖输出已有文件 // 对当前bash有效
+set +C：打开将内容覆盖输出已有文件 // 对当前bash有效
+```
+
+标准输出和错误输出各自定向至不同位置：
+```
+COMMAND >> /path/tofile.out 2>> /path/to/error.out
+```
+合并标准输出和错误输出为同一个数据流进行重定向
+```
+&>  // 合并数据流后，覆盖重定向
+&>> // 合并数据流后，添加重定向
+echo "$PATH" &> /tmp/path.out
+
+COMMAND > /path/to/file.out 2> &1
+COMMAND >> /path/to/file.out 2>> &1
+```
+
+
+输入重定向：`<`
+从给定的地方读取数据。
+
+```
+cat < /etc/fstab /etc/issue
+```
+
+HARE Document：`<<`
+```
+cat >> /tmp/test.out << EOF // 给定字符之前键入的字符写入到文件中
+```
+
+## 管道
+
+前一个命令的输出，当作后一个命令的输入。
+连接N个命令
+
+```
+COMMAND1 | COMMAND2 | COMMAND3 | ...
+```
+最后一个命令会在当前`shell`进程的子进程中进行
+
+```
+echo "$PATH" | tr 'a-z' 'A-Z'
+```
+
+> tee
+
+输入一份，标准输出和文件输出二份（覆盖输出）
+```
+tee /tmp/tee.out
+```
+
+```
+head -n 5 /etc/passwd | tr 'a-z' 'A-Z' > /tmp/passwd.out
+who | tail -n 2 | tr 'a-z' 'A-Z' > /tmp/who.out
 ```
 
