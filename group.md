@@ -38,6 +38,7 @@ Linux组的类别：
 - 用户的基本组(主组)：组名同用户名，且仅包含一个用户叫做私有组
 - 用户的附加组
 
+## 用户和组相关的配置文件
 
 Linux用户和组相关的配置文件：
 - /etc/passwd：用户及其属性信息（名称，UID，基本组ID...）
@@ -74,4 +75,46 @@ Linux用户和组相关的配置文件：
 - 定期更换
 
 
+
+## 用户和组相关的管理命令
+
+用户和组相关的管理命令
+
+> useradd
+
+用户创建: `useradd`
+`account:password:UID:GID:GECOS:directory:shell`
+
+```
+useradd [option] user_name
+-u UID, [UID_MIN, UID_MAX]定义在`etc/login.defs`
+-g GID:指明用户所属基本组，可谓组名，也可以GID
+-c "COMMENT",用户的注释信息
+-d /PATH/TO/HOME_DIR: 以指定的路径为家目录
+-s SHELL:知名用户的shell程序，可用列表在/etc/shells文件中
+-G GID：为用户指明附加组，组必须事先存在
+-r 创建系统用户
+````
+
+```
+id root // 查询用户相关ID信息
+```
+
+> groupadd
+
+```
+groupadd [option] group_name
+
+-g GID: 指明IGD号：[GID_MIN, GID_MAX]定义在`etc/login.defs`
+```
+
+`su`:切换用户或以其他用户身份执行命令
+```
+su [options] [-] [args]
+```
+切换用户的方式：
+```
+su UserName: 非登录式切换,即不会读取目标用户端配置文件
+su - UserName: 登录式，会读取目标用户配置文件，完全切换
+```
 
