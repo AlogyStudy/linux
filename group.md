@@ -118,3 +118,102 @@ su UserName: 非登录式切换,即不会读取目标用户端配置文件
 su - UserName: 登录式，会读取目标用户配置文件，完全切换
 ```
 
+换个身份执行命令：
+```
+su [-] UserName -c 'COMMAND'
+```
+
+## 用户属性相关
+
+`usermod`: 修改一个用户基本属性
+```
+usermod [OPTION] login
+usermod  -a -G list user7
+
+userod -d /home/newUser6 -m user6
+
+-u UID: 新UID
+-g GID: 新的基本组
+-G GROUP1， 新的附加组，原来的附加组将会被覆盖，若保留原有，则要同时使用-a选项，表示append
+-s SHELL: 新的默认SHELL
+-c 'COMMENT': 新的注释信息
+-d HOME: 新的家目录，原有家目录中的文件不会同时移动至新的家目录。若要移动，同时使用-m选项
+-l login_name: 新的名字
+
+-L lock指定用户
+-U unlock指定用户
+
+-e YYY-MM-DD: 指明用户帐号过期日期
+-f INACTIVE:设定非活动期限
+```
+
+> 用户添加密码
+
+`passwd UserName`：修改指定用户的密码，仅root用户可以
+`passwd`：修改用户密码
+
+常用选项：
+```
+-l: 锁定指定用户
+-u: 解锁指定用户
+
+-n mindays: 指定最短使用期限
+-x maxdays: 最大使用期限
+-w warndays: 提前多少天开始警告
+-i inactivedays: 非活动期限
+
+--stdin：从标准输入接受用户密码
+echo "PASSWORD" | passwd --stdin USERNAME
+echo 'centos' | passwd --stdin user1 &> /dev/null
+echo $?
+```
+
+`/dev/null`: `bit buckets`，吞噬任何数据
+`/dev/zero`: 吐0数据，要多少有多少数据
+
+
+> 删除用户
+
+`userdel [OPTION] login`:
+```
+-r: 删除用户家目录
+```
+
+> 组属性修改
+
+`groupmod [OPTION] group`:
+```
+groupmod GROUP
+-n grup_name: 新名字
+-g GID：新的GID
+```
+
+> 删除组
+
+`groupdel`
+```
+groupdel GROUPD
+```
+
+> 组密码
+
+`gpasswd`
+
+```
+gpasswd user
+
+-a user: 将user添加至指定组中
+-d user：删除用户user的以当前组为组名的附加组
+
+-A user1,user2： 设置有用户管理权限的用户列表
+```
+
+
+`newgrp`: 临时切换基本组
+`pwck`: 检查密码文件的完整性
+
+
+> 修改用户的信息
+
+`chage`: 更改用户密码过期信息
+ 

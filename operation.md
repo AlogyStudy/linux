@@ -833,3 +833,16 @@ history | cut -d'' -f5 | sort | uniq
 `-c`：显示每行重复出现的次数
 `-d`：仅显示重复过的行
 
+## grep
+
+Linux上文本处理三剑客
+
+`grep`: 文本过滤（模式：pattern）工具,`grep`,`egrep`,`fgrep`
+`sed`: `stream editor`, 文本编辑工具
+`awk`：Linux上的实现`gawk`, 文本报告生成器
+
+
+`grep`: Global search REgular expression and Print out the line.
+作用：文本搜索工具，根据用户指定"模式"对目标文本逐行进行匹配检查
+
+
