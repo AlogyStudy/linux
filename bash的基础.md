@@ -316,7 +316,13 @@ declare -r name
 按功能划分：
 
 - profile类：为交互式登录的shell提供配置
+	全局：`/etc/profile`, `/etc/profile.d/*.sh`
+	个人：`~/.bash_profile`
+	功能：用于定义环境变量；运行命令或脚本。
 - bashrc类：为非交互式登录的shell提供配置
+	全局：`/etc/bashrc`
+	个人：`~/.bashrc`
+	功能：定义命令别名，定义本地变量
 
 
 shell登录：
