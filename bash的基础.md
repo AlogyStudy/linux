@@ -326,7 +326,63 @@ declare -r name
 
 
 shell登录：
-交互式登录：直接通过终端输入账号密码登录，使用`su - UserName`或`su -l UserName`切换的用户
+交互式登录：
+	直接通过终端输入账号密码登录，使用`su - UserName`或`su -l UserName`切换的用户
+	读取配置文件顺序：`/etc/profile` -> `/etc/profile.d/*.sh` -> `~/.bash_profile` -> `~/.bashrc` -> `/etc/bashrc`
 
-非交互式登录：`su UserName`图形界面下打开的终端，执行脚本
+非交互式登录：
+	`su UserName`图形界面下打开的终端，执行脚本
+	读取配置文件顺序：`~/.bashrc` -> `/etc/bashrc` -> `/etc/profile.d/*.sh`
 
+
+定义对所有用户都生效的别名定义在：`/etc/bashrc`
+用户登录都发出提示信息定义在： `/etc/profile.d/*.sh`
+让用户的`PATH`环境变量的值多出一个路径。例如多出`/usr/local/apache/bin`
+
+使配置文件生效：
+```
+source configFile
+```
+
+## bash脚本
+
+> 算术运算
+
+- let var=算数表达式
+- var=$[算术表达式]
+- var=$((算术表达式))
+- var=$(expr arg1 arg2 arg3 ...); // var num=$(expr $num1 + $num2) // userid1=$(head -n 10 /etc/passwd | tail -n 1 | cut -d: -f3)
+
+
+> 条件测试
+
+判断某需求是否满足，需要由测试机制来实现
+
+Note: 专用的测试表达式需要由测试命令辅助完成测试过程。
+
+测试命令：
+```
+test EXPRESSION
+[ EXPRESSION ] // 命令（前后需要有空格）
+[[ EXPRESSION ]] // 关键字（前后需要有空格）
+
+[1 -lg 3] // 1 > 3
+[1 -gt 3] // 1 < 3
+```
+
+> bash测试类型
+
+数值测试:
+`-gt`, `-ge`大于等于, `-eq`等于, `-ne`不等于, `-lt`, `le`小于等于
+
+字符串测试：
+`==`, `>`, `<`, `!=`, `=~`左侧字符串是否能够被右侧的PTTERN所匹配到, `-z "STRING"`测试字符串是否为空，空为真，不空则为假, `-n "STRING"`测试字符串是否不空，不空则为真，空则为假 // [[ "str" =~ ^s.* ]]
+
+文件测试：
+
+> bash自定义退出状态码
+
+```
+exit [n]
+```
+注意：脚本中一旦遇到`exit`命令，脚本会立即终止，终止退出状态取决于`exit`命令后面的数字
