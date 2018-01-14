@@ -386,3 +386,7 @@ test EXPRESSION
 exit [n]
 ```
 注意：脚本中一旦遇到`exit`命令，脚本会立即终止，终止退出状态取决于`exit`命令后面的数字
+
+```
+[ $# -lt 1 ] && echo "At least one argument." && exit 1
+```
