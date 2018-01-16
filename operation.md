@@ -979,5 +979,9 @@ find [OPTION]... [查找路径] [查找条件] [处理动作]
 	`与: -a`, `或：-o`, `非：-not, !`
 	`find / \(-nouser -o -nogroup\) -ls`
 - 根据文件大小查找
-	-size 
+	-size [+|-]#UNI // find /var -size -3k -exec ls -lh {} \; // find /var -size +3k -exec ls -lh {} \; | grep 'apache'
+	常用单位：k，M，G
+- 根据时间戳：
+	"天":`-atime [+|-]#UNIT`, `-mtime [+|-]UNIT`, `ctime`
+	"分钟": `-amin`, `-mmin`, `-cmin`
 
