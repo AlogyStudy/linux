@@ -981,7 +981,30 @@ find [OPTION]... [查找路径] [查找条件] [处理动作]
 - 根据文件大小查找
 	-size [+|-]#UNI // find /var -size -3k -exec ls -lh {} \; // find /var -size +3k -exec ls -lh {} \; | grep 'apache'
 	常用单位：k，M，G
-- 根据时间戳：
+- 根据时间戳
 	"天":`-atime [+|-]#UNIT`, `-mtime [+|-]UNIT`, `ctime`
 	"分钟": `-amin`, `-mmin`, `-cmin`
+- 根据权限查找
+	-perm [+|-]MODE // find /etc -perm 600
+	MODE: 精确权限匹配
+	+MODE：任何一类（u，g，o）对象的权限中只要能一位匹配即可。
+	-MODE：每一类对象都必须同时拥有为其指定的权限标准。
 
+
+处理动作:
+`-print`: 默认 处理动作，显示至屏幕
+`-ls`: 类似于对查找到的文件执行`ls -l`命令
+`-delete`: 删除查找到的文件
+`-fls /path/to/somefile`: 查找到的所有文件的长格式信息保存至指定文件中。
+`-ok COMMAND {} \;`: 对查找到每个文件执行由`COMMAND`指定的命令。(会有交互式提示)
+`-exec COMMAND {} \;`: 对查找到每个文件执行由`COMMAND`指定的命令。`find /tmp -nouser -exec chown root {} \;`
+
+
+查找`/var`目录下属主为`root`，且属组为`mail`的所有文件或目录
+```
+find /var -user root -group mail
+```
+查找`/usr`目录下不属于`root`,`bin`或`hadoop`的所有文件或目录
+```
+find /user -not -user root -a -not -user -bin -a -not -user hadoop
+```
