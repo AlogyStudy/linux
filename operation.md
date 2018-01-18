@@ -1000,11 +1000,39 @@ find [OPTION]... [查找路径] [查找条件] [处理动作]
 `-exec COMMAND {} \;`: 对查找到每个文件执行由`COMMAND`指定的命令。`find /tmp -nouser -exec chown root {} \;`
 
 
-查找`/var`目录下属主为`root`，且属组为`mail`的所有文件或目录
+查找`/var`目录下属主为`root`，且属组为`mail`的所有文件或目录:
 ```
 find /var -user root -group mail
 ```
-查找`/usr`目录下不属于`root`,`bin`或`hadoop`的所有文件或目录
+查找`/usr`目录下不属于`root`,`bin`或`hadoop`的所有文件或目录：
 ```
-find /user -not -user root -a -not -user -bin -a -not -user hadoop
+find /usr -not -user root -a -not -user bin -a -not -user hadoop
+find /usr -not \( -user root -o -user bin -o -user hadoop \)
 ```
+查找`/etc`目录下最周一周内其内容修改过，同时属主不为`root`，也不是`hadoop`的文件或目录：
+```
+find /etc -mtime -7 -a -not -user root -a -not -user hadoop
+```
+查找当前系统上没有(属主或属组)，且最近一个周内曾访问的过的文件或目录：
+```
+find / -nouser -a -nogroup -a -atime -7
+```
+查找`/etc`目录下大于`1M`且类型为普通文件所有文件或目录:
+```
+find /etc -size +1M -type f
+```
+查找`/etc`目录下所有用户都没有写权限的文件：
+```a
+find /etc -not -perm +222
+```
+查找`/etc`目录下至少有一类用户没有执行权限的文件：
+```
+find /etc -not -perm -111
+```
+查找`/etc/init.d`目录下所有用户都有执行权限，且其它用户有写权限的文件：
+```
+find /etc/init.d -perm -113
+```
+
+
+
