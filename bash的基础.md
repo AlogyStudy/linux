@@ -390,3 +390,33 @@ exit [n]
 ```
 [ $# -lt 1 ] && echo "At least one argument." && exit 1
 ```
+
+## if语句
+
+```
+if 条件;
+then
+	分支代码
+fi
+```
+
+添加用户：
+```
+#!/bin/bash
+
+if [ $# -lt 1 ]; then
+	echo "At least one arguments"
+	exit 1
+fi
+
+
+if id $1 &> /dev/null; then
+	echo "$1 exists."
+	echo 0
+else
+	useradd $1
+	[ $? -eq 0 ] && echo "$1" | passwd --stdin $1 &> /dev/null
+fi
+```
+各种可能的情况想到，用户给任何一种信息都需要做判断。
+

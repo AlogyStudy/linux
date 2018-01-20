@@ -1053,15 +1053,117 @@ Linux文件系统上的特殊权限
 	启动为进程之后，其进程的属组为原程序文件的属主
 - SGID
 	默认情况下，用户创建文件时，其属组为此用户所属的基本组，一旦某目录被设定SGID，则对此目录有写权限的用户在此目录中创建的文件所属的组为此目录所属的组。
+- Sticky
+	对于一个多人可写的目录，如果设置了sticky，则每个用户仅能删除自己 文件	
 
 拥有`SIUD`权限:
 ```
 [admin@localhost ~]$ ls -l `which passwd`
 -rwsr-xr-x. 1 root root 25980 Feb 22  2012 /usr/bin/passwd
 ```
-设置SIUD权限:
+设置`SIUD`权限:
 ```
+chmod u+s FILE...
 chmod u+s /tmp/cat
 chmod u-s /tmp/cat
 ```
+设置`SGID`权限：
+```
+chmod g+s DIR...
+chmod g-s DIR...
+```
+设置`Sticky`权限：
+```
+chmod o+t DIR...
+chmod o-t DIR...
+```
 
+## 磁盘管理
+
+`I/O Ports`: `I/O`设备地址
+
+块设备：`Block`，存取单位“块” - 磁盘
+字符设备：`char`,存取单位“字符” - 键盘
+
+设备文件：关联至一个设备驱动程序，进而能够跟与之对应硬件设备进行通信。
+设备号码：(对于系统，更容易识别数字，都靠一个设备号标识)，主设备号（`major number`）表示设备类型，次设备号（`minor  number`）标识同一类型下的不同设备
+
+磁盘接口类型：
+并行：`IDE`, `SCSI`, 
+串口：`SATA`, `SAS`, `USB`
+
+`/dev/DEV_FILE`: 磁盘设备的设备文件命令,`/dev/sd_FILE`
+不同设备：`a-z`,`/dev/sda`,`dev/sdb`...
+同一设备上的不同分区：1,2,3,4..., `/dev/sda1`, `/dev/sda5`
+
+
+> 机械式硬盘
+
+`track`: 磁道
+`cylinder`: 柱面
+`secotrs`: 扇区
+
+如何分区：按柱面
+
+0磁道0扇区：512bytes(MBR: master Boot Record)
+```
+446bytec： boot lodaer
+64bytes(分区表): 16ytes: 表示一个分区（一个磁盘只能四个分区）
+2bytes: 55AA
+```
+
+分区管理工具：`fdisk`(对于一块硬盘来讲最多只能管理15分区), `parted`, `sfdisk`
+
+```
+[root@localhost ~]# fdisk -l
+
+Disk /dev/sda: 21.5 GB, 21474836480 bytes
+255 heads, 63 sectors/track, 2610 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk identifier: 0x000eb48d
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1   *           1          39      307200   83  Linux
+Partition 1 does not end on cylinder boundary.
+/dev/sda2              39        2354    18598912   83  Linux
+/dev/sda3            2354        2611     2064384   82  Linux swap / Solaris
+```
+-----
+```
+[root@localhost ~]# fdisk -l /dev/sda
+
+Disk /dev/sda: 21.5 GB, 21474836480 bytes
+255 heads, 63 sectors/track, 2610 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk identifier: 0x000eb48d
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1   *           1          39      307200   83  Linux
+Partition 1 does not end on cylinder boundary.
+/dev/sda2              39        2354    18598912   83  Linux
+/dev/sda3            2354        2611     2064384   82  Linux swap / Solaris
+```
+`fdisk device`子命令：
+```
+p: print, 显示已有分区
+n: new, 创建
+d: delete, 删除
+w: write, 写入磁盘并退出
+q: quit, 放弃更新并退出
+m: 获取帮助
+l: 列表所分区id
+t: 调整分区id
+```
+查看内核是否识别新的分区：
+```
+cat /proc/partitions
+```
+通知内核重新读取硬盘分区表:
+```
+partx -a /dev/DEVICE
+partx -a /dev/sda
+````
