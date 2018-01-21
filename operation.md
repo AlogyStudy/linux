@@ -1167,3 +1167,56 @@ cat /proc/partitions
 partx -a /dev/DEVICE
 partx -a /dev/sda
 ````
+
+
+## 文件系统管理
+
+`Linux`文件系统：`ext2`, `ext3`, `ext4`, `xfs`, `btrfs`, `reiserfs`, `jfs`
+`swap`: 交换分区
+光盘： `iso9660`
+`Windows`: `fat32`, `ntfs`
+`Unix`: `FFS`, `UFS`, `JFS2`
+网络文件系统：`NFS`, `CIFS`
+集群文件: `GFS2`, `OCFS2`
+分布式文件系统：`ceph`, `moosefs`, `mogilefs`, `GlusterFS`, `Lustre`
+
+
+文件系统的组成部分：
+内核中的模块：`ext4`, `xfs`
+用户空间的管理工具(应用到磁条分区上去)：`mkfs.ext4`, `mkfs.xfs`
+
+Linux的虚拟文件系统：`VFS`
+
+
+其它常用工具：
+`blkid`: 块设备属性信息查看
+```
+-U UUID: 根据指定的UID来查找对应的设备
+-L LABEL：根据指定的LABEL来查找对应的设备
+```
+`e21abel`：管理`ext`系列文件系统的`LABEL`
+```
+e21abel DEVICE [LABEL]
+```
+`tune2fs`：重新设定`ext`系列文件系统可调整参数的至
+```
+tune2fs -l /dev/sda2
+-l：查看指定文件系统超级块信息：super block // 超级块存储结构划分
+-L 'LABEL': 修改卷标
+-m #: 修改预留给管理员的空间百分比
+```
+`dumpe2fs`: 块信息
+```
+dumpe2fs /dev/sda2
+```
+
+文件系统检测：
+`fsck`: File System CheCk
+```
+fsck.FS_TYPE
+fsck -t FS_TYPE
+
+[root@localhost ~]# fsck
+fsck          fsck.cramfs   fsck.ext2     fsck.ext3     fsck.ext4     fsck.ext4dev  fsck.msdos    fsck.vfat
+```
+`FS_TYPE`一定要与分区上已有文件类型相同

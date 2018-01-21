@@ -420,3 +420,124 @@ fi
 ```
 各种可能的情况想到，用户给任何一种信息都需要做判断。
 
+
+多分支：
+```
+if COMMITION; then
+	if-true
+elif COMMITION2; then
+	if-true
+elif COMMITION3; then
+	if-true
+else
+	all-false
+if
+```
+
+`bash -n filename`: 测试文件是否有语法错误
+`bash -x filename`: 调试文件
+
+例子：用户输入文件路径，脚本来判断文件类型
+
+```
+#!/bin/bash
+
+read -p "Enter a file path: " filename
+
+if [ -z "$filename" ]; then
+	echo "Usage: Enter a file path. "
+	exit 2
+fi
+
+if [ !-e "$filename" ]; then
+	echo "No such file."
+	exit 3
+fi
+
+if [ -f "$filename" ]; then
+	echo "A common file."
+elif [ -d "$filename" ]; then
+	echo "A directory."
+elif [ -l "$filename" ]; then
+	echo "A symbolic file."
+else 
+	echo "Other type."
+fi
+```
+
+## 循环
+
+bash命令：
+用命令的执行状态结果：
+成功：true
+失败：false
+
+`for`
+```
+for 变量名 in 列表; do
+	循环体
+done
+```
+
+列表生成的方式：
+- 直接给出列表
+- 整数列表：
+	{start..end}
+	$(swq[start [step]] end)
+- 返回列表的命令：
+	$(COMMAND)
+	$(ls /var)
+- glob
+	/var/*
+
+循环判断`var`下的文件类型：
+```
+#!/bin/bash
+
+for file in $(ls /var); do
+	if [ -f /var/$file ]; then
+		echo "Common file."
+	elif [ -d /var/$file ]; then
+		echo "Direactory."
+	elif [ -L /var/$file ]; then
+		echo "Symbolic file."
+	else 
+		echo "Other type."
+	fi
+done
+```
+
+vim中搜索替换：
+```
+%s@被替换字符串@替换字符串@规则
+%s@$username@user$i@g
+```
+
+命令生成列表：
+```
+#!/bin/bash
+
+declare -i estab=0
+declare -i listen=0
+declare -i other=0
+
+for state in $(netstat -tan | grep '^tcp\>' | awk '{print $NF}'); do
+	if [ $state == 'ESTABLISHED' ]; then
+		let estab++
+	elif [ $state == 'LISTEN' ]; then
+		let listen++
+	else
+		let other++
+	fi
+done
+
+echo "ESTABLISHED: $estab"
+echo "LISTEN: $listen"
+echo "Unkown: $other"
+```
+
+`while`
+
+
+
+`until`
