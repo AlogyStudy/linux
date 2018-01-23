@@ -1220,3 +1220,19 @@ fsck -t FS_TYPE
 fsck          fsck.cramfs   fsck.ext2     fsck.ext3     fsck.ext4     fsck.ext4dev  fsck.msdos    fsck.vfat
 ```
 `FS_TYPE`一定要与分区上已有文件类型相同
+
+
+> 创建分区
+
+```
+fdisk 以有sda路径
+
+fdisk /dev/sda
+n   add a new partition
+w   write table to disk and exit
+```
+
+清除分区数据：
+```
+mke2fs -t ext4 -b 2048 -L 'MYDATA' -m 3 /dev/sda3
+```
