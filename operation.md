@@ -1236,3 +1236,20 @@ w   write table to disk and exit
 ```
 mke2fs -t ext4 -b 2048 -L 'MYDATA' -m 3 /dev/sda3
 ```
+
+内存空间使用状态：
+```
+free [OPTION]
+-m: 以MB的单位
+-g：以GB为单位
+
+[root@localhost ~]# free -m
+             total       used       free     shared    buffers     cached
+Mem:          1006        400        605          0        105        163
+-/+ buffers/cache:        131        874
+Swap:         2015          0       2015
+
+Mem： 物理内存
+Swap：交换分区
+-/+ buffers/cache：衡量中已用内存空间
+```
