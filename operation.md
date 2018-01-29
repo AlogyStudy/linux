@@ -1253,3 +1253,81 @@ Mem： 物理内存
 Swap：交换分区
 -/+ buffers/cache：衡量中已用内存空间
 ```
+
+## DNS
+
+> 解析类型
+
+Domain:
+```
+正向：FQDN --> IP
+反向：Ip --> FQDN
+```
+
+note: 正反向解析式两个不同的名称空间，是两棵不同的解析树(正向区域&反向区域)
+
+FQDN: Full Qualified Domain Name(完全性的域名)
+
+> DNS服务器的类型
+
+- 主DNS服务器
+- 辅助DNS服务器
+- 缓存DNS服务器
+- 转发器
+
+主DNS服务器：维护所负责解析的域内解析库服务器，解析库由管理维护
+从DNS服务器：从主DNS服务器或其它的从DNS服务器那里“复制”(区域传递)一份解析库
+序列号(判断是否发生变化)：解析库的号，前提:主服务器解析库内容发生变化，其序列递增
+刷新时间：从服务器从主服务器请求同步解析库的时间间隔
+重试时长：从服务器从主服务器请求同步解析库失败时，再次尝试的时间间隔
+过期时长：从服务器始终联系不到主服务器时，多久过后放弃从服务器角度，停止提供服务器
+
+
+区域传递：
+全量传送：传送整个解析库
+增量传送：传递解析库变化的那部分内容
+
+
+一次完整的查询请求经过的流程：
+```
+Client -->
+hosts文件(本地强行来定向某个域名到某个地址) -->
+DNS Service ( Local Cache --> DNS Server[recursion递归] --> Server Cache --> iteration[迭代]) -->
+
+```
+
+区域解析库：由众多RR(资源记录：Resource Record )组成：
+- 记录类型：`A`, `AAAA`, `PTR`, `SOA`, `NS`, `CNAME`, `MX`
+	```
+	SOA: Start Of Authority, 起始授权记录，一个区域解析库有且仅能有一个SOA记录，而且必须出现在记录第一条
+	A:internetAddress, 作用：FQDN --> IP
+	AAAA: FQND --> IPv6
+	PIR: PoinTeR, IP --> FQDN
+	NS: Name Server, 专用于标明当前区域的DNS服务器
+	CNAME：Canonical Name, 别名记录
+	MX: Mial eXchanger, 邮件交换器
+	```
+- 资源记录定义的格式
+	语法：`name [TTL] IN rr_type value`
+	`SOA`: `name`(当前区域的名字), `value`(当前区域的主`DNS`服务器的`FQDN`)，也可以使用当前区域的名字
+	例如： 
+	```
+	sf.com. 88400 In SOA ns.sf.com nsadmin.sf.com. (
+		2018012901  ;序列号  
+		2H 					;刷新时间 
+		10M 				;重试时间
+		1W					;过期时间
+		1D					;否定答案的TTL值
+	)
+	```	
+	`NS`: `name`(当前区域的名字), `value`(当前区域的某`DNS`服务器的名字，例如`ns.sf.com.` 一个区域可以有多个`NS`记录)
+	例如：
+	```
+	sf.com. IN NS ns1.sf.com.
+	sf.com. IN NS ns2.sf.com.
+	```
+	Note：
+	相邻的两个资源记录的`name`相同时，后续的可省略。
+	对`NS`记录而言，任何一个`ns`记录后面的服务器名字，都应该在后续有一个`A`记录
+
+	
