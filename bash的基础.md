@@ -536,8 +536,3 @@ echo "LISTEN: $listen"
 echo "Unkown: $other"
 ```
 
-`while`
-
-
-
-`until`
